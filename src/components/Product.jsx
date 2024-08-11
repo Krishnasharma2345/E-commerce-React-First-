@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
+import Error from '../pages/Error';
 
 const Product = () => {
     const [products, setProducts] = useState([]);
     const [loading, setloading] = useState(false);
+    const [error, seterror] = useState("0")
 
     const url = "https://fakestoreapi.com/products/";
 
@@ -16,11 +18,19 @@ const Product = () => {
                 setProducts(data);
                 setloading(false)
             } catch (error) {
-                console.error(error);
+                seterror(error)
+
             }
         }
         fetchData();
     }, []);
+
+    if (error !== "0") {
+        return <Error error={error}/>
+
+    } else if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div className='flex flex-wrap'>
